@@ -12,7 +12,7 @@ class AccountHolder(AbstractBaseUser, PermissionsMixin):
     surname = models.CharField(max_length=100, null=True, blank=True)
     photo = models.ImageField(upload_to='AccountHolders/', null=True, blank=True)
     wallet = models.PositiveIntegerField(default=0)
-    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES)
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='KZT')
     categories = models.ManyToManyField('Category', blank=True)
     expenses = models.ManyToManyField('Expense', blank=True)
     is_staff = models.BooleanField(default=False)
