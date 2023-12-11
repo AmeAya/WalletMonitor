@@ -40,3 +40,20 @@ def signUpView(request):
             user.set_password(password)
             user.save()
             return redirect('sign_in_url')
+
+
+def profileView(request):
+    if request.user.is_authenticated:
+        return render(request, 'profile.html')
+    else:
+        return redirect('sign_in_url')
+
+
+def changeProfileView(request):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            return render(request, 'change_profile.html')
+        elif request.method == 'POST':
+            pass
+    else:
+        return redirect('sign_in_url')
