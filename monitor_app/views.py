@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .models import *
+import requests
 
 
 def homeView(request):
@@ -54,6 +55,35 @@ def changeProfileView(request):
         if request.method == 'GET':
             return render(request, 'change_profile.html')
         elif request.method == 'POST':
-            pass
+            name = request.POST.get('name')
+            surname = request.POST.get('surname')
+            if request.user.name != name:
+                request.user.name = name
+            if request.user.surname != surname:
+                request.user.surname = surname
+            request.user.save()
+            return redirect('profile_url')
+    else:
+        return redirect('sign_in_url')
+
+
+def addFundsView(request):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            currencies = [elem[0] for elem in CURRENCY_CHOICES]
+            return render(request, 'add_funds.html', {'currencies': currencies})
+        elif request.method == 'POST':
+            funds = int(request.POST.get('funds'))
+            currency = request.POST.get('currency')
+            if request.user.currency == currency:
+                request.user.wallet += funds
+            else:
+                url = 'https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/'
+                url += str(currency).lower() + '.json'
+                response = requests.get(url)
+                data = response.json()[str(currency).lower()]
+                request.user.wallet += funds * data[str(request.user.currency).lower()]
+            request.user.save()
+            return redirect('profile_url')
     else:
         return redirect('sign_in_url')
