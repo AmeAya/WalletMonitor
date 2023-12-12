@@ -11,7 +11,7 @@ class AccountHolder(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=100, null=True, blank=True)
     surname = models.CharField(max_length=100, null=True, blank=True)
     photo = models.ImageField(upload_to='AccountHolders/', null=True, blank=True)
-    wallet = models.PositiveIntegerField(default=0)
+    wallet = models.FloatField(default=0)
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='KZT')
     categories = models.ManyToManyField('Category', blank=True)
     expenses = models.ManyToManyField('Expense', blank=True)
@@ -30,6 +30,6 @@ class Category(models.Model):
 
 class Expense(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
-    amount = models.PositiveIntegerField()
+    amount = models.FloatField()
     created_at = models.DateTimeField()
     category = models.ForeignKey('Category', on_delete=models.CASCADE)

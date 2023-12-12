@@ -10,4 +10,7 @@ urlpatterns = [
     path('profile', profileView, name='profile_url'),
     path('change_profile', changeProfileView, name='change_profile_url'),
     path('add_funds', addFundsView, name='add_funds_url'),
+    path('categories', categoriesView, name='categories_url'),
+    path('expenses_by_category/<int:category_id>', expensesByCategoryView, name='expenses_by_category_url'),
+    path('add_expense', addExpenseView, name='add_expense_url'),
 ]
