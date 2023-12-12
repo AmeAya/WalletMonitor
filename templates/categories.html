@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="content" align="center">
+        <div id="graph"></div>
         {% for category in categories %}
             <div class="row g-0 text-center">
                 <div class="col-sm-6 col-md-8">
@@ -21,4 +22,29 @@
             <button class="btn btn-success" id="submit_button" type="submit">Add New Category</button>
         </form>
     </div>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+    <script>
+        let graph = document.getElementById('graph');
+
+        var data = [{
+            values: [
+                {% for category in categories %}
+                    '{{ category.amount }}',
+                {% endfor %}
+            ],
+            labels: [
+                {% for category in categories %}
+                    '{{ category.name }}',
+                {% endfor %}
+            ],
+            type: 'pie'
+        }];
+
+        var layout = {
+          height: 400,
+          width: 400
+        };
+
+        Plotly.newPlot(graph, data, layout);
+    </script>
 {% endblock content %}
