@@ -13,4 +13,5 @@ urlpatterns = [
     path('categories', categoriesView, name='categories_url'),
     path('expenses_by_category/<int:category_id>', expensesByCategoryView, name='expenses_by_category_url'),
     path('add_expense', addExpenseView, name='add_expense_url'),
+    path('reset_button', resetWalletView, name='reset_wallet_url'),
 ]

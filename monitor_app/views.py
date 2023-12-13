@@ -165,3 +165,12 @@ def addExpenseView(request):
             return redirect('add_expense_url')
     else:
         return redirect('sign_in_url')
+
+
+def resetWalletView(request):
+    if request.user.is_authenticated:
+        request.user.wallet = 0
+        request.user.save()
+        return redirect('profile_url')
+    else:
+        return redirect('sign_in_url')
