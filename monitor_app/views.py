@@ -150,7 +150,7 @@ def addExpenseView(request):
             category = request.user.categories.get(id=request.POST.get('category'))
             created_at = request.POST.get('created_at')
             if currency == request.user.currency:
-                request.user.wallet -= amount
+                amount = amount * 1
             else:
                 url = 'https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/'
                 url += str(currency).lower() + '.json'
@@ -163,12 +163,5 @@ def addExpenseView(request):
             request.user.wallet -= amount
             request.user.save()
             return redirect('add_expense_url')
-    else:
-        return redirect('sign_in_url')
-
-
-def expensesView(request):
-    if request.user.is_authenticated:
-        expenses = request.user.expenses.all()
     else:
         return redirect('sign_in_url')
